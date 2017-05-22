@@ -76,7 +76,7 @@ AFRAME.registerComponent('arrows-control', {
                 'radiusTop': 0,
             });
             arrow.setAttribute('material', {
-                'opacity': 1,
+                'opacity': 0.1,
                 'transparent': true,
                 'color': 'grey',
             });
@@ -116,13 +116,26 @@ AFRAME.registerComponent('move_entity', {
     },
     init: function () {
         var data = this.data;
-        this.el.addEventListener('click', function () {
-            var coordinates = data.to_move.getAttribute('position');
-            coordinates.x += data.increment.x;
-            coordinates.y += data.increment.y;
-            coordinates.z += data.increment.z;
-            data.to_move.setAttribute('position', coordinates);
+        this.el.addEventListener('mouseenter', function () {
+            this.setAttribute('hovered', true);
+            this.setAttribute('scale', '1.2 1.2 1.2');
+            this.setAttribute('material', 'opacity', 1);
         });
+        this.el.addEventListener('mouseleave', function () {
+            this.setAttribute('hovered', false);
+            this.setAttribute('scale', '1 1 1');
+            this.setAttribute('material', 'opacity', 0.1);
+        });
+        this.tick = AFRAME.utils.throttleTick(this.throttledTick, 100, this);
+    },
+    throttledTick: function () {
+        if (this.el.getAttribute('hovered') == "true") {
+            var coordinates = this.data.to_move.getAttribute('position');
+            coordinates.x += this.data.increment.x;
+            coordinates.y += this.data.increment.y;
+            coordinates.z += this.data.increment.z;
+            this.data.to_move.setAttribute('position', coordinates);
+        }
     }
 });
 
