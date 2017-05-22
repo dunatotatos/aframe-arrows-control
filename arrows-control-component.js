@@ -76,9 +76,9 @@ AFRAME.registerComponent('arrows-control', {
                 'radiusTop': 0,
             });
             arrow.setAttribute('material', {
-                'opacity': 0.5,
+                'opacity': 1,
                 'transparent': true,
-                'color': 'green',
+                'color': 'grey',
             });
 
             // Set increment
